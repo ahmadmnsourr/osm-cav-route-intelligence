@@ -28,7 +28,7 @@ try:
 except Exception as exc:
     raise RuntimeError(
         "Failed to import required geospatial dependencies. "
-        "Create a virtual environment and install /Users/ylin/Research/osm/requirements.txt "
+        "Create a virtual environment and install the packages listed in requirements.txt "
         "to ensure compatible binary wheels."
     ) from exc
 from shapely.geometry import LineString, Point, Polygon
@@ -75,7 +75,7 @@ ROUTES: Dict[str, Dict[str, Any]] = {
 CORRIDOR_WIDTH_M: float = 30.0
 
 # Output directory
-OUTPUT_DIR: str = "output"
+OUTPUT_DIR: str = str(Path(__file__).resolve().parent / "output")
 
 
 ROUTE_EDGE_COLUMNS = [
@@ -1899,7 +1899,7 @@ def _export_optional_map(
         return False
 
     center_lat, center_lon = input_points[0]
-    fmap = folium.Map(location=[center_lat, center_lon], zoom_start=13, tiles="cartodbpositron")
+    fmap = folium.Map(location=[center_lat, center_lon], zoom_start=13, tiles="OpenStreetMap")
 
     folium.GeoJson(
         gpd.GeoSeries([route_line], crs="EPSG:4326").to_json(),
